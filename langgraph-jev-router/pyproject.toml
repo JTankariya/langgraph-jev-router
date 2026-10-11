@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "langgraph-jev-router"
+version = "0.2.0"
+description = "Jev-first routing for LangGraph: keep your LLM router as the fallback, let TypeSafe's Jev take the confident decisions."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Jayesh Tankariya" }]
+requires-python = ">=3.10"
+dependencies = [
+    "langgraph>=1.0,<2",
+    "langchain-core>=1.0,<2",
+    "typesafe-sdk>=0.7,<1",
+]
+keywords = ["langgraph", "jev", "typesafe", "routing", "agents", "llm"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "langgraph-supervisor>=0.0.30"]
+
+[project.scripts]
+jev-router = "langgraph_jev_router.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/JTankariya/langgraph-jev-router"
+Issues = "https://github.com/JTankariya/langgraph-jev-router/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+langgraph_jev_router = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = [
+    # third-party deprecation inside langgraph-supervisor, not ours
+    "ignore:create_react_agent has been moved:DeprecationWarning",
+    "ignore::DeprecationWarning:langgraph_supervisor.*",
+]
